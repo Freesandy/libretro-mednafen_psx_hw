@@ -29,7 +29,7 @@
 #include "mednafen.h"
 
 #include "general.h"
-#include "md5.h"
+#include "settings.h"
 #include "mempatcher.h"
 
 #include <libretro.h>
@@ -634,21 +634,3 @@ int MDFNI_ToggleCheat(uint32 which)
 
  return(cheats[which].status);
 }
-
-static void SettingChanged(const char *name)
-{
- MDFNMP_RemoveReadPatches();
-
- CheatsActive = MDFN_GetSettingB("cheats");
-
- RebuildSubCheats();
-
- MDFNMP_InstallReadPatches();
-}
-
-
-MDFNSetting MDFNMP_Settings[] =
-{
- { "cheats", MDFNSF_NOFLAGS, "Enable cheats.", NULL, MDFNST_BOOL, "1", NULL, NULL, NULL, SettingChanged },
- { NULL}
-};
